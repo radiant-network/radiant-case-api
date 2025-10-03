@@ -4,6 +4,23 @@ import "time"
 
 type JsonArray[T any] []T
 
+type OperationResponse struct {
+	Status      string `json:"status_code" binding:"required"`
+	OperationId string `json:"operation_id"`
+}
+
+type OperationErrorResponse struct {
+	Status string                    `json:"status_code" binding:"required"`
+	Id     string                    `json:"id"`
+	Errors JsonArray[OperationError] `json:"errors"`
+}
+
+type OperationError struct {
+	Field string `json:"field"`
+	Error string `json:"error" binding:"required"`
+	Code  string `json:"code"`
+}
+
 type ListCases struct {
 	Cases JsonArray[Case] `json:"cases" binding:"required"`
 }
@@ -89,23 +106,6 @@ type CaseDocument struct {
 	Size             int64  `json:"size" binding:"required" example:"123456"`
 	Url              string `json:"url" binding:"required" example:"s3://bucket/prefix/FILE000.cram"`
 	Hash             string `json:"hash" binding:"required" example:"9e107d9d372bb6826bd81d3542a419d6"`
-}
-
-type BatchResponse struct {
-	Status string `json:"status_code" binding:"required"`
-	Id     string `json:"id"`
-}
-
-type BatchErrorResponse struct {
-	Status string                `json:"status_code" binding:"required"`
-	Id     string                `json:"id"`
-	Errors JsonArray[BatchError] `json:"errors"`
-}
-
-type BatchError struct {
-	Field string `json:"field"`
-	Error string `json:"error" binding:"required"`
-	Code  string `json:"code"`
 }
 
 type CaseSuccessResponse struct {

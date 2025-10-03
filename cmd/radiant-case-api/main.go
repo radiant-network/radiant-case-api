@@ -33,11 +33,9 @@ func main() {
 		v1.POST("/cases/batch", handlers.CreateCasesBatch)
 		v1.POST("/cases", handlers.CreateCase)
 		v1.PATCH("/cases/:id", handlers.UpdateCase)
-		v1.GET("/cases/batch/:id", handlers.GetCasesBatch)
 		v1.POST("/patients/batch", handlers.CreatePatientsBatch)
-		v1.GET("/patients/batch/:id", handlers.GetPatientsBatch)
 		v1.POST("/samples/batch", handlers.CreateSamplesBatch)
-		v1.GET("/samples/batch/:id", handlers.GetSamplesBatch)
+		v1.GET("/operations/:id", handlers.GetOperation)
 	}
 
 	r.Run(":8080")
