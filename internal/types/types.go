@@ -59,19 +59,20 @@ type CaseObservationText struct {
 }
 
 type CaseSequencingExperiment struct {
-	SubmitterSampleId   string    `json:"submitter_sample_id" binding:"required" example:"SA000123"`
-	ExperimentCode      string    `json:"experiment_code" binding:"required"`
-	StatusCode          string    `json:"status_code" enums:"draft,in_progress,revoke,completed,incomplete,submitted,unknown" example:"completed"`
-	RequestPriorityCode string    `json:"request_priority_code" enums:"routine,urgent,asap,stat" example:"routine"`
-	Aliquot             string    `json:"aliquot" binding:"required" example:"ALQ000123"`
-	PerformerLabCode    string    `json:"performer_lab_code" example:"LAB000123"`
-	RunName             string    `json:"run_name" example:"Run 123"`
-	RunAlias            string    `json:"run_alias" example:"run_123"`
-	RunDate             time.Time `json:"run_date" format:"date-time" example:"2020-09-19T14:00:00Z"`
-	CaptureKit          string    `json:"capture_kit" example:"KAPA"`
-	IsPairedEnd         *bool     `json:"is_paired_end" example:"true"`
-	ReadLength          int       `json:"read_length" example:"100"`
-	Task                CaseTask  `json:"task" binding:"required"`
+	SubmitterSampleId      string    `json:"submitter_sample_id" binding:"required" example:"SA000123"`
+	SampleOrganizationCode string    `json:"sample_organization_code" binding:"required" example:"CHOP"`
+	ExperimentCode         string    `json:"experiment_code" binding:"required"`
+	StatusCode             string    `json:"status_code" enums:"draft,in_progress,revoke,completed,incomplete,submitted,unknown" example:"completed"`
+	RequestPriorityCode    string    `json:"request_priority_code" enums:"routine,urgent,asap,stat" example:"routine"`
+	Aliquot                string    `json:"aliquot" binding:"required" example:"ALQ000123"`
+	PerformerLabCode       string    `json:"performer_lab_code" example:"LAB000123"`
+	RunName                string    `json:"run_name" example:"Run 123"`
+	RunAlias               string    `json:"run_alias" example:"run_123"`
+	RunDate                time.Time `json:"run_date" format:"date-time" example:"2020-09-19T14:00:00Z"`
+	CaptureKit             string    `json:"capture_kit" example:"KAPA"`
+	IsPairedEnd            *bool     `json:"is_paired_end" example:"true"`
+	ReadLength             int       `json:"read_length" example:"100"`
+	Task                   CaseTask  `json:"task" binding:"required"`
 }
 
 type CaseTask struct {

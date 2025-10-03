@@ -314,6 +314,9 @@ components:
         run_name:
           example: Run 123
           type: string
+        sample_organization_code:
+          example: CHOP
+          type: string
         status_code:
           enum:
           - draft
@@ -333,6 +336,7 @@ components:
       required:
       - aliquot
       - experiment_code
+      - sample_organization_code
       - submitter_sample_id
       - task
       type: object
