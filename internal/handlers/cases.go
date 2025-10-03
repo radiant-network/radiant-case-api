@@ -59,7 +59,7 @@ func GetCasesBatch(c *gin.Context) {
 }
 
 // UpdateCase godoc
-// @Summary Update one case
+// @Summary Update partially one case
 // @Description Update a case partial fields by id
 // @Tags Cases
 // @Accept json

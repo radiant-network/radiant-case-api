@@ -554,7 +554,7 @@ paths:
           description: Unauthorized
       security:
       - bearerauth: []
-      summary: Update one case
+      summary: Update partially one case
       tags:
       - Cases
   /cases/batch:
