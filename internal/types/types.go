@@ -59,7 +59,7 @@ type CaseObservationText struct {
 }
 
 type CaseSequencingExperiment struct {
-	SubmitterSampleID   string    `json:"submitter_sample_id" binding:"required" example:"SA000123"`
+	SubmitterSampleId   string    `json:"submitter_sample_id" binding:"required" example:"SA000123"`
 	ExperimentCode      string    `json:"experiment_code" binding:"required"`
 	StatusCode          string    `json:"status_code" enums:"draft,in_progress,revoke,completed,incomplete,submitted,unknown" example:"completed"`
 	RequestPriorityCode string    `json:"request_priority_code" enums:"routine,urgent,asap,stat" example:"routine"`
@@ -114,4 +114,27 @@ type PartialCaseResponse struct {
 type PartialCaseErrorResponse struct {
 	Id    string `json:"id" binding:"required"`
 	Error string `json:"error" binding:"required"`
+}
+
+type ListPatients struct {
+	Patients JsonArray[Patient] `json:"patients" binding:"required"`
+}
+type Patient struct {
+	OrganizationPatientId  string `json:"organization_patient_id" binding:"required" example:"PA000123"`
+	OrganizationCode       string `json:"organization_code" binding:"required" example:"CHOP"`
+	OrganizationIdTypeCode string `json:"organization_type_code" binding:"required" example:"mrn"`
+	IsAlive                *bool  `json:"is_alive" example:"true"`
+}
+
+type ListSamples struct {
+	Samples JsonArray[Sample] `json:"samples" binding:"required"`
+}
+type Sample struct {
+	OrganizationPatientId   string `json:"organization_patient_id" binding:"required" example:"PA000123"`
+	OrganizationCode        string `json:"organization_code" binding:"required" example:"CHOP"`
+	SubmitterSampleId       string `json:"submitter_sample_id" binding:"required" example:"SA000123"`
+	SampleType              string `json:"sample_type" binding:"required" enums:"dna,rna,blood,solid_tissue" example:"blood"`
+	TissueSite              string `json:"tissue_site"  example:"plasma"`
+	Histology               string `json:"histology"  example:"normal" enums:"normal,tumoral"`
+	ParentSubmitterSampleId string `json:"parent_submitter_sample_id" example:"SA000122"`
 }

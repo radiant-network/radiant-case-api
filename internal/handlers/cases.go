@@ -30,12 +30,6 @@ func CreateCasesBatch(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, types.BatchErrorResponse{Status: "error", Id: "batch_12345", Errors: types.JsonArray[types.BatchError]{batchError}})
 		return
 	}
-	cases := batch.Cases
-	ids := make([]string, 0, len(cases))
-	for i := range cases {
-		ids = append(ids, "case-"+cases[i].ProjectCode)
-	}
-
 	c.JSON(http.StatusAccepted, types.BatchResponse{Status: "in_progress", Id: "batch_12345"})
 }
 

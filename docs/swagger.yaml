@@ -373,6 +373,26 @@ components:
       required:
       - cases
       type: object
+    ListPatients:
+      properties:
+        patients:
+          items:
+            $ref: '#/components/schemas/Patient'
+          type: array
+          uniqueItems: false
+      required:
+      - patients
+      type: object
+    ListSamples:
+      properties:
+        samples:
+          items:
+            $ref: '#/components/schemas/Sample'
+          type: array
+          uniqueItems: false
+      required:
+      - samples
+      type: object
     PartialCase:
       properties:
         diagnostic_lab_code:
@@ -421,6 +441,62 @@ components:
           type: string
       required:
       - id
+      type: object
+    Patient:
+      properties:
+        is_alive:
+          example: true
+          type: boolean
+        organization_code:
+          example: CHOP
+          type: string
+        organization_patient_id:
+          example: PA000123
+          type: string
+        organization_type_code:
+          example: mrn
+          type: string
+      required:
+      - organization_code
+      - organization_patient_id
+      - organization_type_code
+      type: object
+    Sample:
+      properties:
+        histology:
+          enum:
+          - normal
+          - tumoral
+          example: normal
+          type: string
+        organization_code:
+          example: CHOP
+          type: string
+        organization_patient_id:
+          example: PA000123
+          type: string
+        parent_submitter_sample_id:
+          example: SA000122
+          type: string
+        sample_type:
+          enum:
+          - dna
+          - rna
+          - blood
+          - solid_tissue
+          example: blood
+          type: string
+        submitter_sample_id:
+          example: SA000123
+          type: string
+        tissue_site:
+          example: plasma
+          type: string
+      required:
+      - organization_code
+      - organization_patient_id
+      - sample_type
+      - submitter_sample_id
       type: object
   securitySchemes:
     bearerauth:
@@ -541,5 +617,125 @@ paths:
       summary: Get status of a batch of cases
       tags:
       - Cases
+  /patients/batch:
+    post:
+      description: Accepts a JSON array of Patients
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListPatients'
+        description: List Patients
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchResponse'
+          description: Accepted
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchErrorResponse'
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      security:
+      - bearerauth: []
+      summary: Create a batch of patients
+      tags:
+      - Patients
+  /patients/batch/{id}:
+    get:
+      description: Get the current status of a batch job by ID
+      parameters:
+      - description: batch id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchResponse'
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchErrorResponse'
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      security:
+      - bearerauth: []
+      summary: Get status of a batch of patients
+      tags:
+      - Patients
+  /samples/batch:
+    post:
+      description: Accepts a JSON array of Samples
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListSamples'
+        description: List Samples
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchResponse'
+          description: Accepted
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchErrorResponse'
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      security:
+      - bearerauth: []
+      summary: Create a batch of samples
+      tags:
+      - Samples
+  /samples/batch/{id}:
+    get:
+      description: Get the current status of a batch job by ID
+      parameters:
+      - description: batch id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchResponse'
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchErrorResponse'
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      security:
+      - bearerauth: []
+      summary: Get status of a batch of samples
+      tags:
+      - Samples
 servers:
 - url: http://localhost:8080/
