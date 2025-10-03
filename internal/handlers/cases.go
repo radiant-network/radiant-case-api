@@ -10,18 +10,18 @@ import (
 
 // CreateCasesBatch godoc
 // @Summary Create a batch of cases
-// @Description Accepts a JSON array of CaseBatch and returns created IDs
+// @Description Accepts a JSON array of Case
 // @Tags Cases
 // @Accept json
 // @Produce json
-// @Param payload	body		types.ListCaseBatches	true	"List Cases"
+// @Param payload	body		types.ListCases	true	"List Cases"
 // @Success 202 {object} types.BatchResponse
 // @Failure 400 {object} types.BatchErrorResponse
 // @Failure 401
 // @Security bearerauth
 // @Router /cases/batch [post]
 func CreateCasesBatch(c *gin.Context) {
-	var batch types.ListCaseBatches
+	var batch types.ListCases
 	if err := c.ShouldBindJSON(&batch); err != nil {
 		batchError := types.BatchError{
 			Code:  "invalid_request",
@@ -31,6 +31,31 @@ func CreateCasesBatch(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusAccepted, types.BatchResponse{Status: "in_progress", Id: "batch_12345"})
+}
+
+// CreateCase godoc
+// @Summary Create a case
+// @Description Create a single case
+// @Tags Cases
+// @Accept json
+// @Produce json
+// @Param payload	body types.Case	true	"Case"
+// @Success 201 {object} types.CaseSuccessResponse
+// @Failure 400 {object} types.CaseErrorResponse
+// @Failure 401
+// @Security bearerauth
+// @Router /cases [post]
+func CreateCase(c *gin.Context) {
+	var aCase types.Case
+	if err := c.ShouldBindJSON(&aCase); err != nil {
+
+		responseError := types.CaseErrorResponse{
+			Error: err.Error(),
+		}
+		c.JSON(http.StatusBadRequest, responseError)
+		return
+	}
+	c.JSON(http.StatusOK, types.CaseSuccessResponse{Id: "12345"})
 }
 
 // GetCasesBatch godoc
@@ -67,15 +92,15 @@ func GetCasesBatch(c *gin.Context) {
 // @Security bearerauth
 // @Param id path string true "case id"
 // @Param payload body types.PartialCase true "partial fields"
-// @Success 200 {object} types.PartialCaseResponse
-// @Failure 400 {object} types.PartialCaseErrorResponse
+// @Success 200 {object} types.CaseSuccessResponse
+// @Failure 400 {object} types.CaseErrorResponse
 // @Failure 401
 // @Router /cases/{id} [patch]
 func UpdateCase(c *gin.Context) {
 	id := c.Param("id")
 	var patch types.PartialCase
 	if err := c.ShouldBindJSON(&patch); err != nil {
-		responseError := types.PartialCaseErrorResponse{
+		responseError := types.CaseErrorResponse{
 			Id:    id,
 			Error: err.Error(),
 		}
@@ -83,5 +108,5 @@ func UpdateCase(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, types.PartialCaseResponse{Id: id})
+	c.JSON(http.StatusOK, types.CaseSuccessResponse{Id: id})
 }

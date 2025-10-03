@@ -34,7 +34,7 @@ components:
       required:
       - status_code
       type: object
-    CaseBatch:
+    Case:
       properties:
         diagnostic_lab_code:
           example: DGL123
@@ -154,6 +154,15 @@ components:
       - name
       - size
       - url
+      type: object
+    CaseErrorResponse:
+      properties:
+        error:
+          type: string
+        id:
+          type: string
+      required:
+      - error
       type: object
     CaseFamilyHistory:
       properties:
@@ -340,6 +349,11 @@ components:
       - submitter_sample_id
       - task
       type: object
+    CaseSuccessResponse:
+      properties:
+        id:
+          type: string
+      type: object
     CaseTask:
       properties:
         documents:
@@ -367,11 +381,11 @@ components:
       - pipeline_code
       - type
       type: object
-    ListCaseBatches:
+    ListCases:
       properties:
         cases:
           items:
-            $ref: '#/components/schemas/CaseBatch'
+            $ref: '#/components/schemas/Case'
           type: array
           uniqueItems: false
       required:
@@ -428,23 +442,6 @@ components:
           - unknown
           example: completed
           type: string
-      type: object
-    PartialCaseErrorResponse:
-      properties:
-        error:
-          type: string
-        id:
-          type: string
-      required:
-      - error
-      - id
-      type: object
-    PartialCaseResponse:
-      properties:
-        id:
-          type: string
-      required:
-      - id
       type: object
     Patient:
       properties:
@@ -524,6 +521,36 @@ info:
   version: 0.1.0
 openapi: 3.1.0
 paths:
+  /cases:
+    post:
+      description: Create a single case
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Case'
+        description: Case
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseSuccessResponse'
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseErrorResponse'
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      security:
+      - bearerauth: []
+      summary: Create a case
+      tags:
+      - Cases
   /cases/{id}:
     patch:
       description: Update a case partial fields by id
@@ -546,13 +573,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PartialCaseResponse'
+                $ref: '#/components/schemas/CaseSuccessResponse'
           description: OK
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PartialCaseErrorResponse'
+                $ref: '#/components/schemas/CaseErrorResponse'
           description: Bad Request
         "401":
           description: Unauthorized
@@ -563,12 +590,12 @@ paths:
       - Cases
   /cases/batch:
     post:
-      description: Accepts a JSON array of CaseBatch and returns created IDs
+      description: Accepts a JSON array of Case
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ListCaseBatches'
+              $ref: '#/components/schemas/ListCases'
         description: List Cases
         required: true
       responses:

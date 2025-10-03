@@ -31,6 +31,7 @@ func main() {
 	v1.Use(middleware.OAuthMiddleware())
 	{
 		v1.POST("/cases/batch", handlers.CreateCasesBatch)
+		v1.POST("/cases", handlers.CreateCase)
 		v1.PATCH("/cases/:id", handlers.UpdateCase)
 		v1.GET("/cases/batch/:id", handlers.GetCasesBatch)
 		v1.POST("/patients/batch", handlers.CreatePatientsBatch)

@@ -4,11 +4,11 @@ import "time"
 
 type JsonArray[T any] []T
 
-type ListCaseBatches struct {
-	Cases JsonArray[CaseBatch] `json:"cases" binding:"required"`
+type ListCases struct {
+	Cases JsonArray[Case] `json:"cases" binding:"required"`
 }
 
-type CaseBatch struct {
+type Case struct {
 	ProjectCode               string                              `json:"project_code" binding:"required" example:"CBTN"`
 	Type                      string                              `json:"type" binding:"required" enums:"germline,somatic" example:"germline"`
 	StatusCode                string                              `json:"status_code" enums:"draft,in_progress,revoke,completed,incomplete,submitted,unknown" example:"in_progress"`
@@ -108,12 +108,12 @@ type BatchError struct {
 	Code  string `json:"code"`
 }
 
-type PartialCaseResponse struct {
-	Id string `json:"id" binding:"required"`
+type CaseSuccessResponse struct {
+	Id string `json:"id"`
 }
 
-type PartialCaseErrorResponse struct {
-	Id    string `json:"id" binding:"required"`
+type CaseErrorResponse struct {
+	Id    string `json:"id"`
 	Error string `json:"error" binding:"required"`
 }
 
