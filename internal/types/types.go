@@ -76,29 +76,30 @@ type CaseObservationText struct {
 }
 
 type CaseSequencingExperiment struct {
-	SubmitterSampleId      string    `json:"submitter_sample_id" binding:"required" example:"SA000123"`
-	SampleOrganizationCode string    `json:"sample_organization_code" binding:"required" example:"CHOP"`
-	ExperimentCode         string    `json:"experiment_code" binding:"required"`
-	StatusCode             string    `json:"status_code" enums:"draft,in_progress,revoke,completed,incomplete,submitted,unknown" example:"completed"`
-	RequestPriorityCode    string    `json:"request_priority_code" enums:"routine,urgent,asap,stat" example:"routine"`
-	Aliquot                string    `json:"aliquot" binding:"required" example:"ALQ000123"`
-	PerformerLabCode       string    `json:"performer_lab_code" example:"LAB000123"`
-	RunName                string    `json:"run_name" example:"Run 123"`
-	RunAlias               string    `json:"run_alias" example:"run_123"`
-	RunDate                time.Time `json:"run_date" format:"date-time" example:"2020-09-19T14:00:00Z"`
-	CaptureKit             string    `json:"capture_kit" example:"KAPA"`
-	IsPairedEnd            *bool     `json:"is_paired_end" example:"true"`
-	ReadLength             int       `json:"read_length" example:"100"`
-	Task                   CaseTask  `json:"task" binding:"required"`
+	SubmitterSampleId      string                   `json:"submitter_sample_id" binding:"required" example:"SA000123"`
+	SampleOrganizationCode string                   `json:"sample_organization_code" binding:"required" example:"CHOP"`
+	ExperimentCode         string                   `json:"experiment_code" binding:"required"`
+	StatusCode             string                   `json:"status_code" enums:"draft,in_progress,revoke,completed,incomplete,submitted,unknown" example:"completed"`
+	RequestPriorityCode    string                   `json:"request_priority_code" enums:"routine,urgent,asap,stat" example:"routine"`
+	Aliquot                string                   `json:"aliquot" binding:"required" example:"ALQ000123"`
+	PerformerLabCode       string                   `json:"performer_lab_code" example:"LAB000123"`
+	RunName                string                   `json:"run_name" example:"Run 123"`
+	RunAlias               string                   `json:"run_alias" example:"run_123"`
+	RunDate                time.Time                `json:"run_date" format:"date-time" example:"2020-09-19T14:00:00Z"`
+	CaptureKit             string                   `json:"capture_kit" example:"KAPA"`
+	IsPairedEnd            *bool                    `json:"is_paired_end" example:"true"`
+	ReadLength             int                      `json:"read_length" example:"100"`
+	Task                   SequencingExperimentTask `json:"task" binding:"required"`
 }
 
-type CaseTask struct {
-	Type         string                  `json:"type" binding:"required" enums:"nga,toga,tnga,nea,toea,tnea,npa,topa,tnpa,tofpa,tra"`
-	PipelineCode string                  `json:"pipeline_code" binding:"required"`
-	Documents    JsonArray[CaseDocument] `json:"documents"`
+type SequencingExperimentTask struct {
+	Type          string              `json:"type" binding:"required" enums:"nga,toga,tnga,nea,toea,tnea,npa,topa,tnpa,tofpa,tra"`
+	PipelineCode  string              `json:"pipeline_code" binding:"required"`
+	NormalAliquot string              `json:"normal_aliquot" example:"ALQ000124"`
+	Documents     JsonArray[Document] `json:"documents"`
 }
 
-type CaseDocument struct {
+type Document struct {
 	Name             string `json:"name" binding:"required" example:"FILE000.cram"`
 	DataCategoryCode string `json:"data_category_code" binding:"required" enums:"clinical,genomic" example:"genomic"`
 	DataTypeCode     string `json:"data_type_code" binding:"required" enums:"alignment,snv,ssnv,gcnv,scnv,gsv,ssv,somfu,ssup,igv,cnvvis,exp,covgene,qcrun,exomiser,jointsnv" example:"alignment"`
@@ -108,11 +109,21 @@ type CaseDocument struct {
 	Hash             string `json:"hash" binding:"required" example:"9e107d9d372bb6826bd81d3542a419d6"`
 }
 
-type CaseSuccessResponse struct {
+type TumorNormalTask struct {
+	Type                  string              `json:"type" binding:"required" enums:"tnga,tnea,tnpa"`
+	PipelineCode          string              `json:"pipeline_code" binding:"required"`
+	OrganizationPatientId string              `json:"organization_patient_id" binding:"required" example:"PA000123"`
+	OrganizationCode      string              `json:"organization_code" binding:"required" example:"CHOP"`
+	NormalAliquot         string              `json:"normal_aliquot" example:"ALQ000124"`
+	TumorAliquot          string              `json:"tumor_aliquot" example:"ALQ000123"`
+	Documents             JsonArray[Document] `json:"documents"`
+}
+
+type UpdateSuccessResponse struct {
 	Id string `json:"id"`
 }
 
-type CaseErrorResponse struct {
+type UpdateErrorResponse struct {
 	Id    string `json:"id"`
 	Error string `json:"error" binding:"required"`
 }

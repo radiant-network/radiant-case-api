@@ -53,83 +53,6 @@ components:
       - project_code
       - type
       type: object
-    CaseDocument:
-      properties:
-        data_category_code:
-          enum:
-          - clinical
-          - genomic
-          example: genomic
-          type: string
-        data_type_code:
-          enum:
-          - alignment
-          - snv
-          - ssnv
-          - gcnv
-          - scnv
-          - gsv
-          - ssv
-          - somfu
-          - ssup
-          - igv
-          - cnvvis
-          - exp
-          - covgene
-          - qcrun
-          - exomiser
-          - jointsnv
-          example: alignment
-          type: string
-        format_code:
-          enum:
-          - cram
-          - crai
-          - gvcf
-          - vcf
-          - tbi
-          - tgz
-          - json
-          - html
-          - tsv
-          - bw
-          - bed
-          - png
-          - csv
-          - pdf
-          - txt
-          example: cram
-          type: string
-        hash:
-          example: 9e107d9d372bb6826bd81d3542a419d6
-          type: string
-        name:
-          example: FILE000.cram
-          type: string
-        size:
-          example: 123456
-          type: integer
-        url:
-          example: s3://bucket/prefix/FILE000.cram
-          type: string
-      required:
-      - data_category_code
-      - data_type_code
-      - format_code
-      - hash
-      - name
-      - size
-      - url
-      type: object
-    CaseErrorResponse:
-      properties:
-        error:
-          type: string
-        id:
-          type: string
-      required:
-      - error
-      type: object
     CaseFamilyHistory:
       properties:
         condition:
@@ -307,7 +230,7 @@ components:
           example: SA000123
           type: string
         task:
-          $ref: '#/components/schemas/CaseTask'
+          $ref: '#/components/schemas/SequencingExperimentTask'
       required:
       - aliquot
       - experiment_code
@@ -315,37 +238,73 @@ components:
       - submitter_sample_id
       - task
       type: object
-    CaseSuccessResponse:
+    Document:
       properties:
-        id:
-          type: string
-      type: object
-    CaseTask:
-      properties:
-        documents:
-          items:
-            $ref: '#/components/schemas/CaseDocument'
-          type: array
-          uniqueItems: false
-        pipeline_code:
-          type: string
-        type:
+        data_category_code:
           enum:
-          - nga
-          - toga
-          - tnga
-          - nea
-          - toea
-          - tnea
-          - npa
-          - topa
-          - tnpa
-          - tofpa
-          - tra
+          - clinical
+          - genomic
+          example: genomic
+          type: string
+        data_type_code:
+          enum:
+          - alignment
+          - snv
+          - ssnv
+          - gcnv
+          - scnv
+          - gsv
+          - ssv
+          - somfu
+          - ssup
+          - igv
+          - cnvvis
+          - exp
+          - covgene
+          - qcrun
+          - exomiser
+          - jointsnv
+          example: alignment
+          type: string
+        format_code:
+          enum:
+          - cram
+          - crai
+          - gvcf
+          - vcf
+          - tbi
+          - tgz
+          - json
+          - html
+          - tsv
+          - bw
+          - bed
+          - png
+          - csv
+          - pdf
+          - txt
+          example: cram
+          type: string
+        hash:
+          example: 9e107d9d372bb6826bd81d3542a419d6
+          type: string
+        name:
+          example: FILE000.cram
+          type: string
+        size:
+          example: 123456
+          type: integer
+        url:
+          example: s3://bucket/prefix/FILE000.cram
           type: string
       required:
-      - pipeline_code
-      - type
+      - data_category_code
+      - data_type_code
+      - format_code
+      - hash
+      - name
+      - size
+      - url
       type: object
     ListCases:
       properties:
@@ -499,6 +458,83 @@ components:
       - sample_type
       - submitter_sample_id
       type: object
+    SequencingExperimentTask:
+      properties:
+        documents:
+          items:
+            $ref: '#/components/schemas/Document'
+          type: array
+          uniqueItems: false
+        normal_aliquot:
+          example: ALQ000124
+          type: string
+        pipeline_code:
+          type: string
+        type:
+          enum:
+          - nga
+          - toga
+          - tnga
+          - nea
+          - toea
+          - tnea
+          - npa
+          - topa
+          - tnpa
+          - tofpa
+          - tra
+          type: string
+      required:
+      - pipeline_code
+      - type
+      type: object
+    TumorNormalTask:
+      properties:
+        documents:
+          items:
+            $ref: '#/components/schemas/Document'
+          type: array
+          uniqueItems: false
+        normal_aliquot:
+          example: ALQ000124
+          type: string
+        organization_code:
+          example: CHOP
+          type: string
+        organization_patient_id:
+          example: PA000123
+          type: string
+        pipeline_code:
+          type: string
+        tumor_aliquot:
+          example: ALQ000123
+          type: string
+        type:
+          enum:
+          - tnga
+          - tnea
+          - tnpa
+          type: string
+      required:
+      - organization_code
+      - organization_patient_id
+      - pipeline_code
+      - type
+      type: object
+    UpdateErrorResponse:
+      properties:
+        error:
+          type: string
+        id:
+          type: string
+      required:
+      - error
+      type: object
+    UpdateSuccessResponse:
+      properties:
+        id:
+          type: string
+      type: object
   securitySchemes:
     bearerauth:
       bearerFormat: JWT
@@ -536,7 +572,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CaseSuccessResponse'
+                $ref: '#/components/schemas/UpdateSuccessResponse'
           description: Created
         "202":
           content:
@@ -548,7 +584,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CaseErrorResponse'
+                $ref: '#/components/schemas/UpdateErrorResponse'
           description: Bad Request
         "401":
           description: Unauthorized
@@ -579,7 +615,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CaseSuccessResponse'
+                $ref: '#/components/schemas/UpdateSuccessResponse'
           description: OK
         "202":
           content:
@@ -591,7 +627,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CaseErrorResponse'
+                $ref: '#/components/schemas/UpdateErrorResponse'
           description: Bad Request
         "401":
           description: Unauthorized
@@ -720,5 +756,72 @@ paths:
       summary: Create a batch of samples
       tags:
       - Samples
+  /sequencing_experiments/{id}/task:
+    post:
+      description: Add a task to a sequencing experiment
+      parameters:
+      - description: sequencing experiment id
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SequencingExperimentTask'
+        description: task
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResponse'
+          description: Accepted
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateErrorResponse'
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      security:
+      - bearerauth: []
+      summary: Add a task to a sequencing experiment
+      tags:
+      - Sequencing Experiments
+  /tumor_normal_tasks:
+    post:
+      description: Create a tumor normal task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TumorNormalTask'
+        description: task
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationResponse'
+          description: Accepted
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateErrorResponse'
+          description: Bad Request
+        "401":
+          description: Unauthorized
+      security:
+      - bearerauth: []
+      summary: Create a tumor normal task
+      tags:
+      - Task
 servers:
 - url: http://localhost:8080/

@@ -35,6 +35,8 @@ func main() {
 		v1.PATCH("/cases/:id", handlers.UpdateCase)
 		v1.POST("/patients/batch", handlers.CreatePatientsBatch)
 		v1.POST("/samples/batch", handlers.CreateSamplesBatch)
+		v1.POST("/sequencing_experiments/:id/task", handlers.AddTask)
+		v1.POST("/tumor_normal_tasks", handlers.CreateTumorNormalTask)
 		v1.GET("/operations/:id", handlers.GetOperation)
 	}
 

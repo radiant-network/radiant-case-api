@@ -38,9 +38,9 @@ func CreateCasesBatch(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param payload	body types.Case	true	"Case"
-// @Success 201 {object} types.CaseSuccessResponse
+// @Success 201 {object} types.UpdateSuccessResponse
 // @Success 202 {object} types.OperationResponse
-// @Failure 400 {object} types.CaseErrorResponse
+// @Failure 400 {object} types.UpdateErrorResponse
 // @Failure 401
 // @Security bearerauth
 // @Router /cases [post]
@@ -48,7 +48,7 @@ func CreateCase(c *gin.Context) {
 	var aCase types.Case
 	if err := c.ShouldBindJSON(&aCase); err != nil {
 
-		responseError := types.CaseErrorResponse{
+		responseError := types.UpdateErrorResponse{
 			Error: err.Error(),
 		}
 		c.JSON(http.StatusBadRequest, responseError)
@@ -60,7 +60,7 @@ func CreateCase(c *gin.Context) {
 		c.JSON(http.StatusAccepted, types.OperationResponse{Status: "in_progress", OperationId: "batch_12345"})
 		return
 	}
-	c.JSON(http.StatusCreated, types.CaseSuccessResponse{Id: "12345"})
+	c.JSON(http.StatusCreated, types.UpdateSuccessResponse{Id: "12345"})
 }
 
 // UpdateCase godoc
@@ -72,16 +72,16 @@ func CreateCase(c *gin.Context) {
 // @Security bearerauth
 // @Param id path string true "case id"
 // @Param payload body types.PartialCase true "partial fields"
-// @Success 200 {object} types.CaseSuccessResponse
+// @Success 200 {object} types.UpdateSuccessResponse
 // @Success 202 {object} types.OperationResponse
-// @Failure 400 {object} types.CaseErrorResponse
+// @Failure 400 {object} types.UpdateErrorResponse
 // @Failure 401
 // @Router /cases/{id} [patch]
 func UpdateCase(c *gin.Context) {
 	id := c.Param("id")
 	var patch types.PartialCase
 	if err := c.ShouldBindJSON(&patch); err != nil {
-		responseError := types.CaseErrorResponse{
+		responseError := types.UpdateErrorResponse{
 			Id:    id,
 			Error: err.Error(),
 		}
@@ -94,6 +94,6 @@ func UpdateCase(c *gin.Context) {
 		c.JSON(http.StatusAccepted, types.OperationResponse{Status: "in_progress", OperationId: "batch_12345"})
 		return
 	}
-	c.JSON(http.StatusOK, types.CaseSuccessResponse{Id: id})
+	c.JSON(http.StatusOK, types.UpdateSuccessResponse{Id: id})
 
 }
