@@ -8,6 +8,7 @@ You want to create a Germline case with only information about the patient (prob
 The information about the samples and sequencing experiment are not yet available.
 
 This is what you know at this point:
+
 ![img/incomplete_solo.png](img/incomplete_solo.png)
 
 
