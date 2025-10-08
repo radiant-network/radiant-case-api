@@ -77,7 +77,7 @@ The goal is to illustrate the use of a parent-child relationship between samples
 ### Step 3: Create the family case
 Now, create the family case and associate the patients and samples created in the previous steps.
 ```
-POST /cases
+POST /cases <-- you can also POST /cases/batch in case you have multiple cases. 
 
 {
   "type": "germline",
@@ -175,7 +175,7 @@ POST /cases
 
 }
 ```
-Note: you can use either POST /cases or POST /cases/batch to create one or multiple cases.
+
 
 ### Step 4: Add family members
 Let say 2 weeks later, you have the information about the father, and you want to add him to the case.
