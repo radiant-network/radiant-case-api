@@ -1,4 +1,4 @@
-## Use case: Create a Somatic case 
+## Use case: Somatic Case with an existing sequencing experiment from another case 
 
 This use case demonstrates how to create a Somatic case using the Radiant API, with an existing sequencing experiment for normal sample. 
 

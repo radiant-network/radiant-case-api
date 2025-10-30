@@ -1,4 +1,4 @@
-## Use case: Create a Somatic case 
+## Use case: Germline Case with an existing sequencing experiment from another case 
 
 This use case demonstrates how to create a Germinal case using the Radiant API, with a sequencing experiment already existing for a member of the case. 
 
