@@ -97,7 +97,7 @@ POST /cases <-- you can also POST /cases/batch in case you have multiple cases.
 
   "sequencing_experiments": [
  { // Normal Sequencing experiment for the proband
-      "aliquot": "ALQ001",
+      "aliquot": "NORMAL_ALQ002",
       "sample_organization_code": "CHOP", <-- organization code for the proband
       "submitter_sample_id": "SA002", <-- external sample identifier for the proband
       "capture_kit": "KAPA",
@@ -157,8 +157,6 @@ POST /cases <-- you can also POST /cases/batch in case you have multiple cases.
       },
       "task": { //Task for the tumor-normal
         "type": "tnga",
-        "normal_aliquot": "NORMAL_ALQ002", <--- aliquot for the normal sample
-        "normal_sample_organization_code": "CHOP", <--- organization code for the normal sample
         "pipeline_code": "...",
         "documents": [
           {
