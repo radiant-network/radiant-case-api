@@ -103,7 +103,7 @@ POST /cases <-- you can also POST /cases/batch in case you have multiple cases.
       "observations_categorical": [...],
       "observations_text": [...],
       "organization_code": "CHOP",
-      "organization_patient_id": "PA001",
+      "organization_patient_id": "PA002",
       "relation_to_proband_code": "mother"
     }    
   ],
