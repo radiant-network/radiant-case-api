@@ -11,7 +11,7 @@ type PatientNode = Node<Patient, 'patient'>;
 export default function PatientNode({data} :  NodeProps<PatientNode>) {
     const icon = iconMap[data.sex]
     return (
-        <div className="px-4 py-2 shadow-md rounded-md bg-white border-2 border-stone-400">
+        <div className="px-4 py-2 shadow-sm rounded-md bg-white border border-slate-300">
             <div className="flex items-center">
                 {icon}
                 <div className="ml-2">
@@ -21,8 +21,8 @@ export default function PatientNode({data} :  NodeProps<PatientNode>) {
                 </div>
             </div>
 
-            <Handle type="target" position={Position.Left} className="w-2 !bg-teal-500"/>
-            <Handle type="source" position={Position.Right} className="w-2 !bg-teal-500"/>
+            <Handle type="target" position={Position.Left} className="w-2 !bg-pink-500"/>
+            <Handle type="source" position={Position.Right} className="w-2 !bg-pink-500"/>
         </div>
     );
 }

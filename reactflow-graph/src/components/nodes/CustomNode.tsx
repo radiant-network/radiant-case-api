@@ -7,7 +7,7 @@ import { Handle, Position} from '@xyflow/react';
 // }
 export default function CustomNode({data}: any) {
     return (
-        <div className="px-4 py-2 shadow-md rounded-md bg-white border-2 border-stone-400">
+        <div className="px-4 py-2 shadow-sm rounded-md bg-white border border-slate-300">
             <div className="flex items-center">
                 <div className="rounded-full w-12 h-12 flex justify-center items-center bg-gray-100">
                     {data.emoji}
@@ -21,12 +21,12 @@ export default function CustomNode({data}: any) {
             <Handle
                 type="target"
                 position={Position.Top}
-                className="w-16 !bg-teal-500"
+                className="w-16 !bg-pink-500"
             />
             <Handle
                 type="source"
                 position={Position.Bottom}
-                className="w-16 !bg-teal-500"
+                className="w-16 !bg-pink-500"
             />
         </div>
     );

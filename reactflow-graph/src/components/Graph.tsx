@@ -103,13 +103,13 @@ export default function Graph() {
                     markerEnd: {
                         type: MarkerType.ArrowClosed, width: 20,
                         height: 20,
-                        color: '#FF0072',
+                        color: 'var(--color-slate-400)',
                     },
                     type: 'smoothstep',
                     // animated: true,
                     style: {
                         strokeWidth: 2,
-                        stroke: '#FF0072',
+                        stroke: 'var(--color-slate-400)',
                     }
                 }
             ));
@@ -121,13 +121,13 @@ export default function Graph() {
                     markerEnd: {
                         type: MarkerType.ArrowClosed, width: 20,
                         height: 20,
-                        color: '#FF0072',
+                        color: 'var(--color-slate-400)',
                     },
                     type: 'smoothstep',
                     // animated: true,
                     style: {
                         strokeWidth: 2,
-                        stroke: '#FF0072',
+                        stroke: 'var(--color-slate-400)',
                     }
                 }
             ));
@@ -143,13 +143,13 @@ export default function Graph() {
                         markerEnd: {
                             type: MarkerType.ArrowClosed, width: 20,
                             height: 20,
-                            color: '#FF0072',
+                            color: 'var(--color-slate-400)',
                         },
                         type: 'smoothstep',
                         // animated: true,
                         style: {
                             strokeWidth: 2,
-                            stroke: '#FF0072',
+                            stroke: 'var(--color-slate-400)',
                         },
                         targetHandle: 'left'
                     }]
@@ -165,13 +165,13 @@ export default function Graph() {
                         markerEnd: {
                             type: MarkerType.ArrowClosed, width: 20,
                             height: 20,
-                            color: '#FF0072',
+                            color: 'var(--color-slate-400)',
                         },
                         type: 'smoothstep',
                         // animated: true,
                         style: {
                             strokeWidth: 2,
-                            stroke: '#FF0072',
+                            stroke: 'var(--color-slate-400)',
                         },
                         targetHandle: 'left'
                     }
@@ -182,13 +182,13 @@ export default function Graph() {
                         markerEnd: {
                             type: MarkerType.ArrowClosed, width: 20,
                             height: 20,
-                            color: '#FF0072',
+                            color: 'var(--color-slate-400)',
                         },
                         type: 'smoothstep',
                         animated: true,
                         style: {
                             strokeWidth: 2,
-                            stroke: '#FF0072',
+                            stroke: 'var(--color-slate-400)',
                         }
                     }
             );
