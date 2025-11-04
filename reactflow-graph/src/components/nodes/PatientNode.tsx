@@ -21,15 +21,11 @@ export default function PatientNode({data} :  NodeProps<PatientNode>) {
                 <div className="flex flex-col ml-4 gap-y-1">
                     <div className="flex">
                         <div className="text-lg font-bold">{data.orgPatientId}</div>
-                        {/* <Separator orientation="vertical" className="mx-2" /> */}
-                        {/* <div className="text-lg font-bold">{data.relationToProband}</div> */}
                     </div>
                     <div className="flex gap-x-2 items-baseline">
-                        {/* <Badge variant="secondary">{data.relationToProband}</Badge> */}
                         <div className="text-sm font-bold">{data.relationToProband}</div>
                         <Badge variant="outline">{data.affectedStatus}</Badge>
                     </div>
-                    {/* <div className="text-lg text-muted-foreground">{data.affectedStatus}</div> */}
                 </div>
             </div>
 
