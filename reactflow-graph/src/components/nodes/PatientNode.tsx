@@ -1,10 +1,12 @@
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 import {Venus, Mars} from 'lucide-react';
 import {Handle, type Node, type NodeProps, Position} from '@xyflow/react';
 import type {Patient} from "../../types.ts";
 
 const iconMap = {
-    F: <Venus className="w-10 h-10 text-amber-700" />,
-    M: <Mars className="w-10 h-10 text-amber-700" />
+    F: <Venus className="w-7 h-7 text-pink-400" />,
+    M: <Mars className="w-7 h-7 text-blue-400"/>
 };
 type PatientNode = Node<Patient, 'patient'>;
 
@@ -13,11 +15,21 @@ export default function PatientNode({data} :  NodeProps<PatientNode>) {
     return (
         <div className="px-4 py-2 shadow-sm rounded-md bg-white border">
             <div className="flex items-center">
-                {icon}
-                <div className="ml-2">
-                    <div className="text-lg font-bold">{data.orgPatientId}</div>
-                    <div className="text-lg">{data.relationToProband}</div>
-                    <div className="text-lg">{data.affectedStatus}</div>
+                <div className="rounded-md bg-muted p-2">
+                    {icon}
+                </div>
+                <div className="flex flex-col ml-4 gap-y-1">
+                    <div className="flex">
+                        <div className="text-lg font-bold">{data.orgPatientId}</div>
+                        {/* <Separator orientation="vertical" className="mx-2" /> */}
+                        {/* <div className="text-lg font-bold">{data.relationToProband}</div> */}
+                    </div>
+                    <div className="flex gap-x-2 items-baseline">
+                        {/* <Badge variant="secondary">{data.relationToProband}</Badge> */}
+                        <div className="text-sm font-bold">{data.relationToProband}</div>
+                        <Badge variant="outline">{data.affectedStatus}</Badge>
+                    </div>
+                    {/* <div className="text-lg text-muted-foreground">{data.affectedStatus}</div> */}
                 </div>
             </div>
 

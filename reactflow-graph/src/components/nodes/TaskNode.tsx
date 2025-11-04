@@ -8,8 +8,10 @@ export default function TaskNode({data} :  NodeProps<TaskNode>) {
     return (
         <div className="px-4 py-2 shadow-sm rounded-md bg-white border">
             <div className="flex items-center">
-            <Workflow className="w-10 h-10 text-amber-700" />
-                <div className="ml-2">
+                <div className="rounded-md bg-muted p-2">
+                    <Workflow className="w-7 h-7 text-amber-600" />
+                </div>
+                <div className="ml-4">
                     <div className="text-lg font-bold">{data.name}</div>
                 </div>
             </div>
