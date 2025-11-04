@@ -26,3 +26,12 @@ docker run -p 9090:8080 -e SWAGGER_JSON=/foo/swagger.yaml -v $(pwd)/docs:/foo sw
 Then open http://localhost:9090 in your browser.
 
 Click on authorize and use `test-admin` as bearer token.
+
+## Run reactflow-graph
+```bash
+cd reactflow-graph
+npm install
+npm run dev
+```
+
+Then open http://localhost:5173 in your browser.
