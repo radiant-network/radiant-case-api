@@ -83,12 +83,11 @@ export async function fetchGraph(): Promise<GraphData> {
 
             {taskId: 21, documentId: 210, ioType: 'output'},
             {taskId: 21, documentId: 211, ioType: 'output'},
-            {taskId: 21, documentId: 211, ioType: 'output'},
+
             {taskId: 21, documentId: 212, ioType: 'output'},
             {taskId: 22, documentId: 210, ioType: 'input'},
             {taskId: 22, documentId: 220, ioType: 'output'},
             {taskId: 31, documentId: 310, ioType: 'output'},
-            {taskId: 31, documentId: 311, ioType: 'output'},
             {taskId: 31, documentId: 311, ioType: 'output'},
             {taskId: 31, documentId: 312, ioType: 'output'},
             {taskId: 32, documentId: 310, ioType: 'input'},
