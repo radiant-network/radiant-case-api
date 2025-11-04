@@ -31,10 +31,10 @@ export default function DocumentNode({data}: NodeProps<DocumentNode>) {
     return (
         <NodeTooltip>
             <NodeTooltipContent position={Position.Top}
-                                className="text-gray-800 px-4 py-2 shadow-md rounded-md bg-white border-1">
+                                className="text-foreground px-4 py-2 shadow-md rounded-md bg-white border-1">
                 <div className="text-sm font-bold">{data.name}</div>
                 {data.size && (
-                    <div className="text-gray-600 text-xs">
+                    <div className="text-muted-foreground text-xs">
                         {formatFileSize(data.size)}
                     </div>
                 )}

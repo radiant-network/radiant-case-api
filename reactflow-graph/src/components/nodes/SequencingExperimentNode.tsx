@@ -12,13 +12,13 @@ type SequencingExperimentNode = Node<SequencingExperiment, 'sequencingExperiment
 export default function SequencingExperimentNode({data} :  NodeProps<SequencingExperimentNode>) {
     return (
         <NodeTooltip>
-            <NodeTooltipContent position={Position.Top} className="text-gray-800 px-4 py-2 shadow-md rounded-md bg-white border-1">
+            <NodeTooltipContent position={Position.Top} className="text-foreground px-4 py-2 shadow-md rounded-md bg-white border-1">
                 <div className="text-sm font-bold">{data.aliquotId}</div>
 
-                <div className="text-gray-600 text-xs">
+                <div className="text-muted-foreground text-xs">
                     Platform {data.platform}
                 </div>
-                <div className="text-gray-600 text-xs">
+                <div className="text-muted-foreground text-xs">
                     {data.sequencingReadTechnology}
                 </div>
                 <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r rotate-45"></div>
