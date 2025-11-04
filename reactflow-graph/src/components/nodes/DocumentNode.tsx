@@ -31,16 +31,16 @@ export default function DocumentNode({data}: NodeProps<DocumentNode>) {
     return (
         <NodeTooltip>
             <NodeTooltipContent position={Position.Top}
-                                className="text-gray-800 px-4 py-2 shadow-md rounded-md bg-white border-1 border-stone-400">
+                                className="text-gray-800 px-4 py-2 shadow-md rounded-md bg-white border-1">
                 <div className="text-sm font-bold">{data.name}</div>
                 {data.size && (
                     <div className="text-gray-600 text-xs">
                         {formatFileSize(data.size)}
                     </div>
                 )}
-                <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r border-stone-400 rotate-45"></div>
+                <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r rotate-45"></div>
             </NodeTooltipContent>
-            <NodeTooltipTrigger className="px-4 py-2 shadow-sm rounded-md bg-white border border-slate-300">
+            <NodeTooltipTrigger className="px-4 py-2 shadow-sm rounded-md bg-white border">
                 <div className="flex items-center">
                     {icon}
                 </div>

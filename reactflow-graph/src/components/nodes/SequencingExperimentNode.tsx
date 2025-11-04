@@ -12,7 +12,7 @@ type SequencingExperimentNode = Node<SequencingExperiment, 'sequencingExperiment
 export default function SequencingExperimentNode({data} :  NodeProps<SequencingExperimentNode>) {
     return (
         <NodeTooltip>
-            <NodeTooltipContent position={Position.Top} className="text-gray-800 px-4 py-2 shadow-md rounded-md bg-white border-1 border-stone-400">
+            <NodeTooltipContent position={Position.Top} className="text-gray-800 px-4 py-2 shadow-md rounded-md bg-white border-1">
                 <div className="text-sm font-bold">{data.aliquotId}</div>
 
                 <div className="text-gray-600 text-xs">
@@ -21,9 +21,9 @@ export default function SequencingExperimentNode({data} :  NodeProps<SequencingE
                 <div className="text-gray-600 text-xs">
                     {data.sequencingReadTechnology}
                 </div>
-                <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r border-stone-400 rotate-45"></div>
+                <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r rotate-45"></div>
             </NodeTooltipContent>
-            <NodeTooltipTrigger className="flex items-center px-4 py-2 shadow-sm rounded-md bg-white border border-slate-300">
+            <NodeTooltipTrigger className="flex items-center px-4 py-2 shadow-sm rounded-md bg-white border">
                 <Dna className="ml-1 w-10 h-10 text-amber-700" />
                 <div className="ml-2">
                     <div className="text-lg font-bold">{data.experimentalStrategy}</div>

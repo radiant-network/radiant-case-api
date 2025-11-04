@@ -6,7 +6,7 @@ type SampleNode = Node<Sample, 'sample'>;
 
 export default function SampleNode({data} :  NodeProps<SampleNode>) {
     return (
-        <div className="px-4 py-2 shadow-sm rounded-md bg-white border border-slate-300">
+        <div className="px-4 py-2 shadow-sm rounded-md bg-white border">
             <div className="flex items-center">
             <TestTube className="w-10 h-10 text-amber-700" />
                 <div className="ml-2">
