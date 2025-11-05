@@ -1,0 +1,61 @@
+{
+  "patients": [
+    {
+      "id": 1,
+      "orgPatientId": "MRN-123",
+      "relationToProband": "Proband",
+      "sex": "F",
+      "affectedStatus": "Affected"
+    }
+  ],
+  "samples": [
+    {"id": 1, "orgSampleId": "SAMPLE-123", "histological": "Somatic", "patientId": 1},
+    {"id": 2, "orgSampleId": "SAMPLE-456", "histological": "Germinal", "patientId": 1}
+  ],
+  "sequencingExperiments": [
+    {"id": 1, "aliquotId": "ALIQUOT-123", "experimentalStrategy": "WGS", "sampleId": 1, "sequencingReadTechnology": "Short Read", "platform": "Illumina NovaSeq 6000"},
+    {"id": 2, "aliquotId": "ALIQUOT-456", "experimentalStrategy": "WGS", "sampleId": 2, "sequencingReadTechnology": "Short Read", "platform": "Illumina NovaSeq 6000"}
+  ],
+  "tasks": [
+    {"id": 11, "name": "Alignment", "sequencingExperimentId": 1},
+    {"id": 12, "name": "SNV Variant Calling", "sequencingExperimentId": 1},
+    {"id": 13, "name": "CNV Variant Calling", "sequencingExperimentId": 1},
+    {"id": 14, "name": "Exomiser", "sequencingExperimentId": 1},
+    {"id": 15, "name": "Genotyping", "sequencingExperimentId": 1},
+    {"id": 21, "name": "Alignment", "sequencingExperimentId": 2},
+    {"id": 31, "name": "Tumor Normal Calling"}
+  ],
+  "documents": [
+    {"id": 110, "name": "ALIQUOT-123.recal.cram.gz", "size": 15065349403, "type": "cram"},
+    {"id": 111, "name": "ALIQUOT-123.final.roh_metrics.csv", "size": 114, "type": "tsv"},
+    {"id": 112, "name": "ALIQUOT-123.final.hla_metrics.csv", "size": 759, "type": "tsv"},
+    {"id": 120, "name": "ALIQUOT-123.final.hard-filtered.gvcf.gz", "size": 4753126836, "type": "gvcf"},
+    {"id": 130, "name": "ALIQUOT-123.final.cnv.vcf.gz", "size": 57480, "type": "vcf"},
+    {"id": 140, "name": "ALIQUOT-123.exomiser.variants.tsv", "size": 57480214, "type": "tsv"},
+    {"id": 141, "name": "variants.tumor-only.snv.vep.vcf.gz", "size": 303104204, "type": "vcf"},
+    {"id": 210, "name": "ALIQUOT-456.recal.cram.gz", "size": 15065349403, "type": "cram"},
+    {"id": 211, "name": "ALIQUOT-456.final.roh_metrics.csv", "size": 114, "type": "tsv"},
+    {"id": 212, "name": "ALIQUOT-456.final.hla_metrics.csv", "size": 759, "type": "tsv"},
+    {"id": 310, "name": "variants.tumor-normal.snv.vep.vcf.gz", "size": 15065349403, "type": "vcf"}
+  ],
+  "links": [
+    {"taskId": 11, "documentId": 110, "ioType": "output"},
+    {"taskId": 11, "documentId": 111, "ioType": "output"},
+    {"taskId": 11, "documentId": 112, "ioType": "output"},
+    {"taskId": 12, "documentId": 110, "ioType": "input"},
+    {"taskId": 12, "documentId": 120, "ioType": "output"},
+    {"taskId": 13, "documentId": 110, "ioType": "input"},
+    {"taskId": 13, "documentId": 130, "ioType": "output"},
+    {"taskId": 14, "documentId": 120, "ioType": "input"},
+    {"taskId": 14, "documentId": 140, "ioType": "output"},
+    {"taskId": 15, "documentId": 120, "ioType": "input"},
+    {"taskId": 15, "documentId": 141, "ioType": "output"},
+
+    {"taskId": 21, "documentId": 210, "ioType": "output"},
+    {"taskId": 21, "documentId": 211, "ioType": "output"},
+    {"taskId": 21, "documentId": 212, "ioType": "output"},
+    {"taskId": 31, "documentId": 110, "ioType": "input"},
+    {"taskId": 31, "documentId": 210, "ioType": "input"},
+    {"taskId": 31, "documentId": 310, "ioType": "output"}
+  ]
+}

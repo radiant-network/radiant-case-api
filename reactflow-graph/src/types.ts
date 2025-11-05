@@ -41,7 +41,7 @@ export interface Link {
     ioType: 'input' | 'output';
 }
 
-export interface GraphData {
+export interface Case {
     patients: Patient[];
     samples: Sample[];
     sequencingExperiments: SequencingExperiment[];

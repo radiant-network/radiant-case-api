@@ -16,7 +16,6 @@ export default function TaskNode({data} :  NodeProps<TaskNode>) {
                 </div>
             </div>
 
-            <Handle type="target" position={Position.Top} className="w-2 !bg-pink-500" id="top"/>
             <Handle type="target" position={Position.Left} className="w-2 !bg-pink-500" id="left"/>
             <Handle type="source" position={Position.Right} className="w-2 !bg-pink-500"/>
         </div>

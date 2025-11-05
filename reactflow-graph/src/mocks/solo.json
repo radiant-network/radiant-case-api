@@ -1,0 +1,49 @@
+{
+  "patients": [
+    {
+      "id": 1,
+      "orgPatientId": "MRN-123",
+      "relationToProband": "Proband",
+      "sex": "F",
+      "affectedStatus": "Affected"
+    }
+  ],
+  "samples": [
+    {"id": 1, "orgSampleId": "SAMPLE-123", "histological": "Germinal", "patientId": 1}
+  ],
+  "sequencingExperiments": [
+    {"id": 1, "aliquotId": "ALIQUOT-123", "experimentalStrategy": "WGS", "sampleId": 1, "sequencingReadTechnology": "Short Read", "platform": "Illumina NovaSeq 6000"}
+  ],
+  "tasks": [
+    {"id": 11, "name": "Alignment", "sequencingExperimentId": 1},
+    {"id": 12, "name": "SNV Variant Calling", "sequencingExperimentId": 1},
+    {"id": 13, "name": "CNV Variant Calling", "sequencingExperimentId": 1},
+    {"id": 14, "name": "Exomiser", "sequencingExperimentId": 1},
+    {"id": 15, "name": "Genotyping", "sequencingExperimentId": 1}
+
+  ],
+  "documents": [
+    {"id": 110, "name": "NA12891.recal.cram.gz", "size": 15065349403, "type": "cram"},
+    {"id": 111, "name": "NA12891.final.roh_metrics.csv", "size": 114, "type": "tsv"},
+    {"id": 112, "name": "NA12891.final.hla_metrics.csv", "size": 759, "type": "tsv"},
+    {"id": 120, "name": "NA12891.final.hard-filtered.gvcf.gz", "size": 4753126836, "type": "gvcf"},
+    {"id": 130, "name": "NA12891.final.cnv.vcf.gz", "size": 57480, "type": "vcf"},
+    {"id": 140, "name": "NA12891.exomiser.variants.tsv", "size": 57480214, "type": "tsv"},
+    {"id": 141, "name": "variants.CEPH-1463.snv.vep.vcf.gz", "size": 303104204, "type": "vcf"}
+
+  ],
+  "links": [
+    {"taskId": 11, "documentId": 110, "ioType": "output"},
+    {"taskId": 11, "documentId": 111, "ioType": "output"},
+    {"taskId": 11, "documentId": 112, "ioType": "output"},
+    {"taskId": 12, "documentId": 110, "ioType": "input"},
+    {"taskId": 12, "documentId": 120, "ioType": "output"},
+    {"taskId": 13, "documentId": 110, "ioType": "input"},
+    {"taskId": 13, "documentId": 130, "ioType": "output"},
+    {"taskId": 14, "documentId": 120, "ioType": "input"},
+    {"taskId": 14, "documentId": 140, "ioType": "output"},
+    {"taskId": 15, "documentId": 120, "ioType": "input"},
+    {"taskId": 15, "documentId": 141, "ioType": "output"}
+
+  ]
+}

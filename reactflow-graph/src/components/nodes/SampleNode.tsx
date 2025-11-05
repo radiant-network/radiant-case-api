@@ -13,7 +13,11 @@ export default function SampleNode({data} :  NodeProps<SampleNode>) {
                 </div>
                 <div className="ml-4">
                     <div className="text-lg font-bold">{data.orgSampleId}</div>
+                    <div className="flex gap-x-2 items-baseline">
+                        <div className="text-sm font-bold">{data.histological}</div>
+                    </div>
                 </div>
+
             </div>
 
             <Handle type="target" position={Position.Left} className="w-2 !bg-pink-500"/>

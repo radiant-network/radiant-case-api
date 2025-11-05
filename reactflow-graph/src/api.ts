@@ -1,102 +1,12 @@
-// export async function fetchGraph(): Promise<GraphData> {
-//     const res = await fetch('/api/graph');
-//     if (!res.ok) throw new Error('Failed to fetch graph');
-//     return res.json();
-// }
+import trio from "./mocks/trio.json";
+import solo from "./mocks/solo.json";
+import somatic from "./mocks/somatic.json";
 
-import type {GraphData} from "./types.ts";
+const cases = { trio, solo, somatic};
+import type {Case} from "./types.ts";
 
-export async function fetchGraph(): Promise<GraphData> {
-    return {
-        patients: [
-            {
-                id: 1,
-                orgPatientId: 'MRN-123',
-                relationToProband: 'Proband',
-                sex: "F",
-                affectedStatus: "Affected"
-            },
-            {
-                id: 2,
-                orgPatientId: 'MRN-546',
-                relationToProband: 'Mother',
-                sex: "F",
-                affectedStatus: "Affected"
-            },
-            {
-                id: 3,
-                orgPatientId: 'MRN-789',
-                relationToProband: 'Father',
-                sex: "M",
-                affectedStatus: "Not Affected"
-            }
-        ],
-        samples: [
-            {id: 1, orgSampleId: 'SAMPLE-123', histological: 'Germinal', patientId: 1},
-            {id: 2, orgSampleId: 'SAMPLE-456', histological: 'Tumor', patientId: 2},
-            {id: 3, orgSampleId: 'SAMPLE-789', histological: 'Germinal', patientId: 3}
-        ],
-        sequencingExperiments: [
-            {id: 1, aliquotId: 'ALIQUOT-123', experimentalStrategy: 'WGS', sampleId: 1, sequencingReadTechnology: "Short Read", platform: "Illumina NovaSeq 6000"},
-            {id: 2, aliquotId: 'ALIQUOT-456', experimentalStrategy: 'WGS', sampleId: 2, sequencingReadTechnology: "Short Read", platform: "Illumina NovaSeq 6000"},
-            {id: 3, aliquotId: 'ALIQUOT-789', experimentalStrategy: 'WGS', sampleId: 3, sequencingReadTechnology: "Short Read", platform: "Illumina NovaSeq 6000"}
-        ],
-        tasks: [
-            {id: 11, name: 'Alignment', sequencingExperimentId: 1},
-            {id: 12, name: 'SNV Variant Calling', sequencingExperimentId: 1}, //edge should not be displayed because there is already a document input link from
-            {id: 13, name: 'CNV Variant Calling', sequencingExperimentId: 1},
-            {id: 14, name: 'Exomiser', sequencingExperimentId: 1},
-            {id: 21, name: 'Alignment', sequencingExperimentId: 2},
-            {id: 22, name: 'SNV Variant Calling', sequencingExperimentId: 1},
-            {id: 31, name: 'Alignment', sequencingExperimentId: 3},
-            {id: 32, name: 'SNV Variant Calling', sequencingExperimentId: 1},
-            {id: 80, name: 'Joint Genotyping'}
-        ],
-        documents: [
-            {id: 110, name: 'NA12891.recal.cram.gz', size: 15065349403, type: 'cram'},
-            {id: 111, name: 'NA12891.final.roh_metrics.csv', size: 114, type: 'tsv'},
-            {id: 112, name: 'NA12891.final.hla_metrics.csv', size: 759, type: 'tsv'},
-            {id: 120, name: 'NA12891.final.hard-filtered.gvcf.gz', size: 4753126836, type: 'gvcf'},
-            {id: 130, name: 'NA12891.final.cnv.vcf.gz', size: 57480, type: 'vcf'},
-            {id: 140, name: 'NA12891.exomiser.variants.tsv', size: 57480214, type: 'tsv'},
-            {id: 210, name: 'NA12892.recal.cram', size: 15065349403, type: 'cram'},
-            {id: 211, name: 'NA12892.final.roh_metrics.csv', size: 114, type: 'tsv'},
-            {id: 212, name: 'NA12892.final.hla_metrics.csv', size: 759, type: 'tsv'},
-            {id: 220, name: 'NA12892.final.hard-filtered.gvcf.gz', size: 4753126836, type: 'gvcf'},
-            {id: 310, name: 'NA12893.recal.cram', size: 15065349403, type: 'cram'},
-            {id: 311, name: 'NA12893.final.roh_metrics.csv', size: 114, type: 'tsv'},
-            {id: 312, name: 'NA12893.final.hla_metrics.csv', size: 759, type: 'tsv'},
-            {id: 320, name: 'NA12893.final.hard-filtered.gvcf.gz', size: 4753126836, type: 'gvcf'},
-            {id: 820, name: 'variants.CEPH-1463.snv.vep.vcf.gz', size: 289.79 * 1024 * 1024, type: 'vcf'},
-
-        ],
-        links: [
-            {taskId: 11, documentId: 110, ioType: 'output'},
-            {taskId: 11, documentId: 111, ioType: 'output'},
-            {taskId: 11, documentId: 112, ioType: 'output'},
-            {taskId: 12, documentId: 110, ioType: 'input'},
-            {taskId: 12, documentId: 120, ioType: 'output'},
-            {taskId: 13, documentId: 110, ioType: 'input'},
-            {taskId: 13, documentId: 130, ioType: 'output'},
-            {taskId: 14, documentId: 120, ioType: 'input'},
-            {taskId: 14, documentId: 140, ioType: 'output'},
-
-            {taskId: 21, documentId: 210, ioType: 'output'},
-            {taskId: 21, documentId: 211, ioType: 'output'},
-
-            {taskId: 21, documentId: 212, ioType: 'output'},
-            {taskId: 22, documentId: 210, ioType: 'input'},
-            {taskId: 22, documentId: 220, ioType: 'output'},
-            {taskId: 31, documentId: 310, ioType: 'output'},
-            {taskId: 31, documentId: 311, ioType: 'output'},
-            {taskId: 31, documentId: 312, ioType: 'output'},
-            {taskId: 32, documentId: 310, ioType: 'input'},
-            {taskId: 32, documentId: 320, ioType: 'output'},
-            {taskId: 80, documentId: 120, ioType: 'input'},
-            {taskId: 80, documentId: 220, ioType: 'input'},
-            {taskId: 80, documentId: 320, ioType: 'input'},
-            {taskId: 80, documentId: 820, ioType: 'output'},
-
-        ]
-    }
+export async function fetchCase(caseId: string): Promise<Case> {
+    const data = cases[caseId as keyof typeof cases];
+    if (!data) throw new Error(`Unknown case: ${caseId}`);
+    return data;
 }

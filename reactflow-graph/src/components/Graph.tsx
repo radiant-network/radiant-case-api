@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect} from 'react';
 import {
     Controls,
     type Edge,
@@ -11,8 +11,7 @@ import {
 } from '@xyflow/react';
 
 import dagre from '@dagrejs/dagre';
-import {fetchGraph} from '../api';
-import {type GraphData} from '../types';
+import {type Case} from '../types';
 import DocumentNode from '../components/nodes/DocumentNode';
 import TaskNode from '../components/nodes/TaskNode';
 import SequencingExperimentNode from "./nodes/SequencingExperimentNode.tsx";
@@ -55,51 +54,93 @@ const nodeTypes = {
 const edgeTypes = {}; // No custom edges yet, but stable reference
 
 
-export default function Graph() {
+export default function Graph({ caseData }: { caseData: Case }) {
+
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
     useEffect(() => {
-        fetchGraph().then((data: GraphData) => {
-            const patientNodes: Node[] = data.patients.map((patient) => ({
-                id: `patient-${patient.id}`,
-                type: 'patient',
-                data: patient,
-                position: {x: 0, y: 0},
-            }));
+        if (!caseData) return;
 
-            const sampleNodes: Node[] = data.samples.map((sample) => ({
-                id: `sample-${sample.id}`,
-                type: 'sample',
-                data: sample,
-                position: {x: 0, y: 0},
-            }));
+        const patientNodes: Node[] = caseData.patients.map((patient) => ({
+            id: `patient-${patient.id}`,
+            type: 'patient',
+            data: patient,
+            position: {x: 0, y: 0},
+        }));
 
-            const sequencingExperimentNodes: Node[] = data.sequencingExperiments.map((sequencingExperiment) => ({
-                id: `seqExp-${sequencingExperiment.id}`,
-                type: 'sequencingExperiment',
-                data: sequencingExperiment,
-                position: {x: 0, y: 0},
-            }));
+        const sampleNodes: Node[] = caseData.samples.map((sample) => ({
+            id: `sample-${sample.id}`,
+            type: 'sample',
+            data: sample,
+            position: {x: 0, y: 0},
+        }));
 
-            const docNodes: Node[] = data.documents.map((doc) => ({
-                id: `doc-${doc.id}`,
-                type: 'document',
-                data: doc,
-                position: {x: 0, y: 0},
-            }));
+        const sequencingExperimentNodes: Node[] = caseData.sequencingExperiments.map((sequencingExperiment) => ({
+            id: `seqExp-${sequencingExperiment.id}`,
+            type: 'sequencingExperiment',
+            data: sequencingExperiment,
+            position: {x: 0, y: 0},
+        }));
 
-            const taskNodes: Node[] = data.tasks.map((task) => ({
-                id: `task-${task.id}`,
-                type: 'task',
-                data: task,
-                position: {x: 0, y: 0},
-            }));
+        const docNodes: Node[] = caseData.documents.map((doc) => ({
+            id: `doc-${doc.id}`,
+            type: 'document',
+            data: doc,
+            position: {x: 0, y: 0},
+        }));
 
-            const samplePatientEdges: Edge[] = data.samples.map((sample) => ({
-                    id: `e-patient-${sample.patientId}-sample-${sample.id}`,
-                    source: `patient-${sample.patientId}`,
-                    target: `sample-${sample.id}`,
+        const taskNodes: Node[] = caseData.tasks.map((task) => ({
+            id: `task-${task.id}`,
+            type: 'task',
+            data: task,
+            position: {x: 0, y: 0},
+        }));
+
+        const samplePatientEdges: Edge[] = caseData.samples.map((sample) => ({
+                id: `e-patient-${sample.patientId}-sample-${sample.id}`,
+                source: `patient-${sample.patientId}`,
+                target: `sample-${sample.id}`,
+                markerEnd: {
+                    type: MarkerType.ArrowClosed, width: 20,
+                    height: 20,
+                    color: 'var(--color-slate-400)',
+                },
+                type: 'smoothstep',
+                // animated: true,
+                style: {
+                    strokeWidth: 2,
+                    stroke: 'var(--color-slate-400)',
+                }
+            }
+        ));
+
+        const sequencingExperimentSampleEdges: Edge[] = caseData.sequencingExperiments.map((sequencingExperiment) => ({
+                id: `e-sample-${sequencingExperiment.id}-seqExp-${sequencingExperiment.sampleId}`,
+                source: `sample-${sequencingExperiment.sampleId}`,
+                target: `seqExp-${sequencingExperiment.id}`,
+                markerEnd: {
+                    type: MarkerType.ArrowClosed, width: 20,
+                    height: 20,
+                    color: 'var(--color-slate-400)',
+                },
+                type: 'smoothstep',
+                // animated: true,
+                style: {
+                    strokeWidth: 2,
+                    stroke: 'var(--color-slate-400)',
+                }
+            }
+        ));
+
+
+        const taskSequencingExperimentEdges: Edge[] = caseData.tasks.flatMap((task) => {
+            // Only create edge if there is a sequencingExperimentId and no input document link exists
+            if (task.sequencingExperimentId && !caseData.links.find((link) => link.taskId === task.id && link.ioType === 'input')) {
+                return [{
+                    id: `e-seqExp-${task.sequencingExperimentId}-task-${task.id}`,
+                    source: `seqExp-${task.sequencingExperimentId}`,
+                    target: `task-${task.id}`,
                     markerEnd: {
                         type: MarkerType.ArrowClosed, width: 20,
                         height: 20,
@@ -110,96 +151,56 @@ export default function Graph() {
                     style: {
                         strokeWidth: 2,
                         stroke: 'var(--color-slate-400)',
-                    }
-                }
-            ));
-
-            const sequencingExperimentSampleEdges: Edge[] = data.sequencingExperiments.map((sequencingExperiment) => ({
-                    id: `e-sample-${sequencingExperiment.id}-seqExp-${sequencingExperiment.sampleId}`,
-                    source: `sample-${sequencingExperiment.sampleId}`,
-                    target: `seqExp-${sequencingExperiment.id}`,
-                    markerEnd: {
-                        type: MarkerType.ArrowClosed, width: 20,
-                        height: 20,
-                        color: 'var(--color-slate-400)',
                     },
-                    type: 'smoothstep',
-                    // animated: true,
-                    style: {
-                        strokeWidth: 2,
-                        stroke: 'var(--color-slate-400)',
-                    }
-                }
-            ));
-
-
-            const taskSequencingExperimentEdges: Edge[] = data.tasks.flatMap((task) => {
-                // Only create edge if there is a sequencingExperimentId and no input document link exists
-                if (task.sequencingExperimentId &&  !data.links.find((link) => link.taskId === task.id && link.ioType === 'input')) {
-                    return [{
-                        id: `e-seqExp-${task.sequencingExperimentId}-task-${task.id}`,
-                        source: `seqExp-${task.sequencingExperimentId}`,
-                        target: `task-${task.id}`,
-                        markerEnd: {
-                            type: MarkerType.ArrowClosed, width: 20,
-                            height: 20,
-                            color: 'var(--color-slate-400)',
-                        },
-                        type: 'smoothstep',
-                        // animated: true,
-                        style: {
-                            strokeWidth: 2,
-                            stroke: 'var(--color-slate-400)',
-                        },
-                        targetHandle: 'left'
-                    }]
-                } else return [];
-            });
-
-            const taskDocumentEdges: Edge[] = data.links.map((link) =>
-                link.ioType === 'input'
-                    ? {
-                        id: `e-doc-${link.documentId}-task-${link.taskId}`,
-                        source: `doc-${link.documentId}`,
-                        target: `task-${link.taskId}`,
-                        markerEnd: {
-                            type: MarkerType.ArrowClosed, width: 20,
-                            height: 20,
-                            color: 'var(--color-slate-400)',
-                        },
-                        type: 'smoothstep',
-                        // animated: true,
-                        style: {
-                            strokeWidth: 2,
-                            stroke: 'var(--color-slate-400)',
-                        },
-                        targetHandle: 'left'
-                    }
-                    : {
-                        id: `e-task-${link.taskId}-doc-${link.documentId}`,
-                        source: `task-${link.taskId}`,
-                        target: `doc-${link.documentId}`,
-                        markerEnd: {
-                            type: MarkerType.ArrowClosed, width: 20,
-                            height: 20,
-                            color: 'var(--color-slate-400)',
-                        },
-                        type: 'smoothstep',
-                        animated: true,
-                        style: {
-                            strokeWidth: 2,
-                            stroke: 'var(--color-slate-400)',
-                        }
-                    }
-            );
-
-            const allEdges = [...taskSequencingExperimentEdges, ...taskDocumentEdges, ...sequencingExperimentSampleEdges, ...samplePatientEdges];
-            const allNodes = [...sequencingExperimentNodes, ...docNodes, ...taskNodes, ...sampleNodes, ...patientNodes];
-            const layouted = applyLayout(allNodes, allEdges);
-            setNodes(layouted);
-            setEdges(allEdges);
+                    targetHandle: 'left'
+                }]
+            } else return [];
         });
-    }, []);
+
+        const taskDocumentEdges: Edge[] = caseData.links.map((link) =>
+            link.ioType === 'input'
+                ? {
+                    id: `e-doc-${link.documentId}-task-${link.taskId}`,
+                    source: `doc-${link.documentId}`,
+                    target: `task-${link.taskId}`,
+                    markerEnd: {
+                        type: MarkerType.ArrowClosed, width: 20,
+                        height: 20,
+                        color: 'var(--color-slate-400)',
+                    },
+                    type: 'smoothstep',
+                    // animated: true,
+                    style: {
+                        strokeWidth: 2,
+                        stroke: 'var(--color-slate-400)',
+                    },
+                    targetHandle: 'left'
+                }
+                : {
+                    id: `e-task-${link.taskId}-doc-${link.documentId}`,
+                    source: `task-${link.taskId}`,
+                    target: `doc-${link.documentId}`,
+                    markerEnd: {
+                        type: MarkerType.ArrowClosed, width: 20,
+                        height: 20,
+                        color: 'var(--color-slate-400)',
+                    },
+                    type: 'smoothstep',
+                    animated: true,
+                    style: {
+                        strokeWidth: 2,
+                        stroke: 'var(--color-slate-400)',
+                    }
+                }
+        );
+
+        const allEdges = [...taskSequencingExperimentEdges, ...taskDocumentEdges, ...sequencingExperimentSampleEdges, ...samplePatientEdges];
+        const allNodes = [...sequencingExperimentNodes, ...docNodes, ...taskNodes, ...sampleNodes, ...patientNodes];
+        const layouted = applyLayout(allNodes, allEdges);
+        setNodes(layouted);
+        setEdges(allEdges);
+
+    }, [caseData]);
     const onNodeClick = useCallback((event: React.MouseEvent, node: any) => {
         console.log('node clicked', node);
         console.log('event', event);
@@ -221,7 +222,7 @@ export default function Graph() {
                 className="bg-teal-50"
             >
                 <Controls/>
-                <MiniMap />
+                <MiniMap/>
             </ReactFlow>
         </div>
     );
