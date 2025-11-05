@@ -8,8 +8,8 @@ export default function SampleNode({data} :  NodeProps<SampleNode>) {
     return (
         <div className="px-4 py-2 shadow-sm rounded-md bg-white border">
             <div className="flex items-center">
-                <div className="rounded-md bg-muted p-2">
-                    <TestTube className="w-7 h-7 text-cyan-600" />
+                <div className="rounded-md bg-emerald-50 text-emerald-800 p-2">
+                    <TestTube className="w-7 h-7" />
                 </div>
                 <div className="ml-4">
                     <div className="text-lg font-bold">{data.orgSampleId}</div>

@@ -24,8 +24,8 @@ export default function SequencingExperimentNode({data} :  NodeProps<SequencingE
                 <div className="absolute bottom-[-6px] left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b border-r rotate-45"></div>
             </NodeTooltipContent>
             <NodeTooltipTrigger className="flex items-center px-4 py-2 shadow-sm rounded-md bg-white border">
-                <div className="rounded-md bg-muted p-2">
-                    <Dna className="ml-1 w-7 h-7 text-violet-500" />
+                <div className="rounded-md bg-fuchsia-50 text-fuchsia-900 p-2">
+                    <Dna className="w-7 h-7" />
                 </div>
                 <div className="ml-4">
                     <div className="text-lg font-bold">{data.experimentalStrategy}</div>

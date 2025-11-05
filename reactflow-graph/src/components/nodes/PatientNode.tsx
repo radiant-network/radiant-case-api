@@ -1,12 +1,12 @@
-import { Separator } from "@/components/ui/separator";
+import { User } from 'lucide-react';
 import { Badge } from "@/components/ui/badge";
 import {Venus, Mars} from 'lucide-react';
 import {Handle, type Node, type NodeProps, Position} from '@xyflow/react';
 import type {Patient} from "../../types.ts";
 
 const iconMap = {
-    F: <Venus className="w-7 h-7 text-pink-400" />,
-    M: <Mars className="w-7 h-7 text-blue-400"/>
+    F: <Venus className="w-4 h-4" />,
+    M: <Mars className="w-4 h-4"/>
 };
 type PatientNode = Node<Patient, 'patient'>;
 
@@ -15,15 +15,16 @@ export default function PatientNode({data} :  NodeProps<PatientNode>) {
     return (
         <div className="px-4 py-2 shadow-sm rounded-md bg-white border">
             <div className="flex items-center">
-                <div className="rounded-md bg-muted p-2">
-                    {icon}
+                <div className="rounded-md bg-sky-50 text-sky-800 p-2">
+                    <User className="w-7 h-7" />
                 </div>
                 <div className="flex flex-col ml-4 gap-y-1">
-                    <div className="flex">
-                        <div className="text-lg font-bold">{data.orgPatientId}</div>
-                    </div>
-                    <div className="flex gap-x-2 items-baseline">
+                    <div className="text-lg font-bold">{data.orgPatientId}</div>
+                    <div className="flex gap-x-2 items-center">
                         <div className="text-sm font-bold">{data.relationToProband}</div>
+                        <div className="">
+                            {icon}
+                        </div>
                         <Badge variant="outline">{data.affectedStatus}</Badge>
                     </div>
                 </div>
